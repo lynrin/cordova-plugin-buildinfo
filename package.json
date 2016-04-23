@@ -1,0 +1,36 @@
+{
+  "name": "cordova-plugin-buildinfo",
+  "version": "0.9.0",
+  "description": "Cordova/Phonegap Build Information Plugin",
+  "cordova": {
+    "id": "cordova-plugin-buildinfo",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lynrin/cordova-plugin-buildinfo.git"
+  },
+  "keywords": [
+    "buildinfo",
+    "phonegap",
+    "cordova",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=4.0.0"
+    }
+  ],
+  "author": "Mikihiro Hayashi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lynrin/cordova-plugin-buildinfo/issues"
+  },
+  "homepage": "https://github.com/lynrin/cordova-plugin-buildinfo#readme"
+}

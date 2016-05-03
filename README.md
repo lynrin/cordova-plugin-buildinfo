@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/lynrin/cordova-plugin-buildinfo.svg?branch=master)](https://travis-ci.org/lynrin/cordova-plugin-buildinfo)
+
 # cordova-plugin-buildinfo
 
 This plugin defines a global BuildInfo object.

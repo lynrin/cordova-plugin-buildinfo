@@ -54,17 +54,37 @@ channel.onCordovaReady.subscribe(function () {
 				return;
 			}
 
-			(res.packageName) && (module.exports.packageName = res.packageName);
-			(res.displayName) && (module.exports.displayName = res.displayName);
-			(res.name)        && (module.exports.name        = res.name);
-			(res.version)     && (module.exports.version     = res.version);
-			(res.versionCode) && (module.exports.versionCode = res.versionCode);
-			(res.debug)       && (module.exports.debug       = res.debug);
-			(res.buildType)   && (module.exports.buildType   = res.buildType);
-			(res.flavor)      && (module.exports.flavor      = res.flavor);
-			// for (var i in res) {
-			// 	module.exports[i] = res[i];
-			// }
+			if ('undefined' !== typeof res.packageName) {
+				module.exports.packageName = res.packageName;
+			}
+
+			if ('undefined' !== typeof res.displayName) {
+				module.exports.displayName = res.displayName;
+			}
+
+			if ('undefined' !== typeof res.name) {
+				module.exports.name = res.name;
+			}
+
+			if ('undefined' !== typeof res.version) {
+				module.exports.version = res.version;
+			}
+
+			if ('undefined' !== typeof res.versionCode) {
+				module.exports.versionCode = res.versionCode;
+			}
+
+			if ('undefined' !== typeof res.debug) {
+				module.exports.debug = res.debug;
+			}
+
+			if ('undefined' !== typeof res.buildType) {
+				module.exports.buildType = res.buildType;
+			}
+
+			if ('undefined' !== typeof res.flavor) {
+				module.exports.flavor = res.flavor;
+			}
 		},
 		function (msg) {
 			console.error('BuildInfo init fail');
@@ -74,4 +94,4 @@ channel.onCordovaReady.subscribe(function () {
 		'init',
 		args
 	);
-})
+});

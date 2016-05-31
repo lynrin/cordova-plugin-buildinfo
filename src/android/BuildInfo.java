@@ -24,6 +24,7 @@ SOFTWARE.
 
 package org.apache.cordova.buildinfo;
 
+import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -92,10 +93,12 @@ public class BuildInfo extends CordovaPlugin {
 		}
 
 		// Load PackageInfo
-		String packageName = cordova.getActivity().getPackageName();
+		Activity activity = cordova.getActivity();
+		String packageName = activity.getPackageName();
+		String basePackageName = packageName;
 		CharSequence displayName = "";
 
-		PackageManager pm = cordova.getActivity().getPackageManager();
+		PackageManager pm = activity.getPackageManager();
 
 		try {
 			PackageInfo pi = pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
@@ -117,9 +120,18 @@ public class BuildInfo extends CordovaPlugin {
 		try {
 			c = Class.forName(buildConfigClassName);
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			callbackContext.error("BuildConfig ClassNotFoundException: " + e.getMessage());
-			return;
+		}
+
+		if (null == c) {
+			basePackageName = activity.getClass().getPackage().getName();
+			buildConfigClassName = basePackageName + ".BuildConfig";
+
+			try {
+				c = Class.forName(buildConfigClassName);
+			} catch (ClassNotFoundException e) {
+				callbackContext.error("BuildConfig ClassNotFoundException: " + e.getMessage());
+				return;
+			}
 		}
 
 		// Create result
@@ -127,24 +139,26 @@ public class BuildInfo extends CordovaPlugin {
 		try {
 			boolean debug = getClassFieldBoolean(c, "DEBUG", false);
 
-			mBuildInfoCache.put("packageName", packageName);
-			mBuildInfoCache.put("displayName", displayName);
-			mBuildInfoCache.put("name"       , displayName); // same as displayName
-			mBuildInfoCache.put("version"    , getClassFieldString(c, "VERSION_NAME", ""));
-			mBuildInfoCache.put("versionCode", getClassFieldInt(c, "VERSION_CODE", 0));
-			mBuildInfoCache.put("debug"      , debug);
-			mBuildInfoCache.put("buildType"  , getClassFieldString(c, "BUILD_TYPE", ""));
-			mBuildInfoCache.put("flavor"     , getClassFieldString(c, "FLAVOR", ""));
+			mBuildInfoCache.put("packageName"    , packageName);
+			mBuildInfoCache.put("basePackageName", basePackageName);
+			mBuildInfoCache.put("displayName"    , displayName);
+			mBuildInfoCache.put("name"           , displayName); // same as displayName
+			mBuildInfoCache.put("version"        , getClassFieldString(c, "VERSION_NAME", ""));
+			mBuildInfoCache.put("versionCode"    , getClassFieldInt(c, "VERSION_CODE", 0));
+			mBuildInfoCache.put("debug"          , debug);
+			mBuildInfoCache.put("buildType"      , getClassFieldString(c, "BUILD_TYPE", ""));
+			mBuildInfoCache.put("flavor"         , getClassFieldString(c, "FLAVOR", ""));
 
 			if (debug) {
-				Log.d(TAG, "packageName: \"" + mBuildInfoCache.getString("packageName") + "\"");
-				Log.d(TAG, "displayName: \"" + mBuildInfoCache.getString("displayName") + "\"");
-				Log.d(TAG, "name       : \"" + mBuildInfoCache.getString("name") + "\"");
-				Log.d(TAG, "version    : \"" + mBuildInfoCache.getString("version") + "\"");
-				Log.d(TAG, "versionCode: " + mBuildInfoCache.getInt("versionCode"));
-				Log.d(TAG, "debug      : " + (mBuildInfoCache.getBoolean("debug") ? "true" : "false"));
-				Log.d(TAG, "buildType  : \"" + mBuildInfoCache.getString("buildType") + "\"");
-				Log.d(TAG, "flavor     : \"" + mBuildInfoCache.getString("flavor") + "\"");
+				Log.d(TAG, "packageName    : \"" + mBuildInfoCache.getString("packageName") + "\"");
+				Log.d(TAG, "basePackageName: \"" + mBuildInfoCache.getString("basePackageName") + "\"");
+				Log.d(TAG, "displayName    : \"" + mBuildInfoCache.getString("displayName") + "\"");
+				Log.d(TAG, "name           : \"" + mBuildInfoCache.getString("name") + "\"");
+				Log.d(TAG, "version        : \"" + mBuildInfoCache.getString("version") + "\"");
+				Log.d(TAG, "versionCode    : " + mBuildInfoCache.getInt("versionCode"));
+				Log.d(TAG, "debug          : " + (mBuildInfoCache.getBoolean("debug") ? "true" : "false"));
+				Log.d(TAG, "buildType      : \"" + mBuildInfoCache.getString("buildType") + "\"");
+				Log.d(TAG, "flavor         : \"" + mBuildInfoCache.getString("flavor") + "\"");
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

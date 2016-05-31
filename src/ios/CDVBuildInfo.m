@@ -39,25 +39,27 @@ SOFTWARE.
 #endif
 
 	NSDictionary* result = @{
-							 @"packageName": [bundle bundleIdentifier],
-							 @"displayName": [info objectForKey:@"CFBundleDisplayName"],
-							 @"name"       : [info objectForKey:@"CFBundleName"],
-							 @"version"    : [info objectForKey:@"CFBundleShortVersionString"],
-							 @"versionCode": [info objectForKey:@"CFBundleVersion"],
-							 @"debug"      : debug,
-							 @"buildType"  : @"", // Android Only
-							 @"flavor"     : @""  // Android Only
+							 @"packageName"    : [bundle bundleIdentifier],
+							 @"basePackageName": [bundle bundleIdentifier],
+							 @"displayName"    : [info objectForKey:@"CFBundleDisplayName"],
+							 @"name"           : [info objectForKey:@"CFBundleName"],
+							 @"version"        : [info objectForKey:@"CFBundleShortVersionString"],
+							 @"versionCode"    : [info objectForKey:@"CFBundleVersion"],
+							 @"debug"          : debug,
+							 @"buildType"      : @"", // Android Only
+							 @"flavor"         : @""  // Android Only
 						};
 
 	if ([debug boolValue]) {
-		NSLog(@"BuildInfo packageName: \"%@\"", [result objectForKey:@"packageName"]);
-		NSLog(@"BuildInfo displayName: \"%@\"", [result objectForKey:@"displayName"]);
-		NSLog(@"BuildInfo name       : \"%@\"", [result objectForKey:@"name"]);
-		NSLog(@"BuildInfo version    : \"%@\"", [result objectForKey:@"version"]);
-		NSLog(@"BuildInfo versionCode: \"%@\"", [result objectForKey:@"versionCode"]);
-		NSLog(@"BuildInfo debug      : %@"    , [[result objectForKey:@"debug"] boolValue] ? @"YES" : @"NO");
-		NSLog(@"BuildInfo buildType  : \"%@\"", [result objectForKey:@"buildType"]);
-		NSLog(@"BuildInfo flavor     : \"%@\"", [result objectForKey:@"flavor"]);
+		NSLog(@"BuildInfo packageName    : \"%@\"", [result objectForKey:@"packageName"]);
+		NSLog(@"BuildInfo basePackageName: \"%@\"", [result objectForKey:@"basePackageName"]);
+		NSLog(@"BuildInfo displayName    : \"%@\"", [result objectForKey:@"displayName"]);
+		NSLog(@"BuildInfo name           : \"%@\"", [result objectForKey:@"name"]);
+		NSLog(@"BuildInfo version        : \"%@\"", [result objectForKey:@"version"]);
+		NSLog(@"BuildInfo versionCode    : \"%@\"", [result objectForKey:@"versionCode"]);
+		NSLog(@"BuildInfo debug          : %@"    , [[result objectForKey:@"debug"] boolValue] ? @"YES" : @"NO");
+		NSLog(@"BuildInfo buildType      : \"%@\"", [result objectForKey:@"buildType"]);
+		NSLog(@"BuildInfo flavor         : \"%@\"", [result objectForKey:@"flavor"]);
 	}
 
 	CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];

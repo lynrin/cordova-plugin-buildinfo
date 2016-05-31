@@ -9,6 +9,11 @@ exports.defineAutoTests = function () {
 			expect((String(window.BuildInfo.packageName)).length > 0).toBe(true);
 		});
 
+		it ('should contain a Base PackageName specification that is a string', function () {
+			expect(window.BuildInfo.basePackageName).toBeDefined();
+			expect((String(window.BuildInfo.basePackageName)).length > 0).toBe(true);
+		});
+
 		it ('should contain a DisplayName specification that is a string', function () {
 			expect(window.BuildInfo.displayName).toBeDefined();
 			expect((String(window.BuildInfo.displayName)).length > 0).toBe(true);

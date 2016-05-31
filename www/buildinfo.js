@@ -27,6 +27,7 @@ var channel = require('cordova/channel');
 
 module.exports = {
 	packageName: '',
+	basePackageName: '',
 	displayName: '',
 	name: '',
 	version: '',
@@ -56,6 +57,10 @@ channel.onCordovaReady.subscribe(function () {
 
 			if ('undefined' !== typeof res.packageName) {
 				module.exports.packageName = res.packageName;
+			}
+
+			if ('undefined' !== typeof res.basePackageName) {
+				module.exports.basePackageName = res.basePackageName;
 			}
 
 			if ('undefined' !== typeof res.displayName) {

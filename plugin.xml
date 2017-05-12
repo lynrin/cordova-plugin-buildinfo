@@ -1,39 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin
-	xmlns="http://apache.org/cordova/ns/plugins/1.0"
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	id="cordova-plugin-buildinfo"
-	version="1.1.0">
-	<name>BuildInfo</name>
-	<description>Cordova/Phonegap Build Information Plugin. Get PackageName, Version, Debug and more...</description>
-	<license>MIT</license>
-	<keywords>debug,buildconfig,buildinfo,phonegap,cordova</keywords>
-	<author>Mikihiro Hayashi</author>
+        xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-buildinfo"
+        version="1.1.0">
+    <name>BuildInfo</name>
+    <description>Cordova/Phonegap Build Information Plugin. Get PackageName, Version, Debug and more...</description>
+    <license>MIT</license>
+    <keywords>debug,buildconfig,buildinfo,phonegap,cordova</keywords>
+    <author>Mikihiro Hayashi</author>
 
-	<js-module src="www/buildinfo.js" name="BuildInfo">
-		<clobbers target="BuildInfo" />
-	</js-module>
+    <js-module src="www/buildinfo.js" name="BuildInfo">
+        <clobbers target="BuildInfo"/>
+    </js-module>
 
-	<engines>
-		<engine name="cordova" version=">=4.0.0" />
-	</engines>
+    <engines>
+        <engine name="cordova" version=">=4.0.0"/>
+    </engines>
 
-	<platform name="android">
-		<config-file target="res/xml/config.xml" parent="/*">
-			<feature name="BuildInfo">
-				<param name="android-package" value="org.apache.cordova.buildinfo.BuildInfo" />
-			</feature>
-		</config-file>
-		<source-file src="src/android/BuildInfo.java" target-dir="src/org/apache/cordova/buildinfo" />
-	</platform>
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="BuildInfo">
+                <param name="android-package" value="org.apache.cordova.buildinfo.BuildInfo"/>
+            </feature>
+        </config-file>
+        <source-file src="src/android/BuildInfo.java" target-dir="src/org/apache/cordova/buildinfo"/>
+    </platform>
 
-	<platform name="ios">
-		<config-file target="config.xml" parent="/*">
-			<feature name="BuildInfo">
-				<param name="ios-package" value="CDVBuildInfo"/>
-			</feature>
-		</config-file>
-		<header-file src="src/ios/CDVBuildInfo.h" />
-		<source-file src="src/ios/CDVBuildInfo.m" />
-	</platform>
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="BuildInfo">
+                <param name="ios-package" value="CDVBuildInfo"/>
+            </feature>
+        </config-file>
+        <header-file src="src/ios/CDVBuildInfo.h"/>
+        <source-file src="src/ios/CDVBuildInfo.m"/>
+    </platform>
+
+    <platform name="windows">
+        <js-module src="src/windows/BuildInfoProxy.js" name="BuildInfoProxy">
+            <merges target=""/>
+        </js-module>
+    </platform>
 </plugin>

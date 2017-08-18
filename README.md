@@ -129,13 +129,13 @@ Get the debug flag.
 Get the build date and time in the same format new Date().toJSON() returns.
 
 Attention: There is no information about the timezones saved.
-iOS: The iOS date is written in developer local time but interpreted in UTC
-Android: The Android date is written in developer's local time and interpret in user's local time
+- iOS: The iOS date is written in developer local time but interpreted in UTC
+- Android: The Android date is written in developer's local time and interpret in user's local time
 
 |Platform|Value|Type|
 |--------|-----|----|
 |Android|Datetime of last build folder modification|String|
-|iOS|Combination of __DATE__ and __TIME__ |String|
+|iOS|Combination of \_\_DATE\_\_ and \_\_TIME\_\_ |String|
 
 
 ### BuildInfo.buildType

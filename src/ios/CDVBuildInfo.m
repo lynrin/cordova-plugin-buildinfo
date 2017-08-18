@@ -59,7 +59,7 @@ SOFTWARE.
 							 @"version"        : [info objectForKey:@"CFBundleShortVersionString"],
 							 @"versionCode"    : [info objectForKey:@"CFBundleVersion"],
 							 @"debug"          : debug,
-                             @"buildTime"      : buildTime,
+							 @"buildTime"      : buildTime,
 							 @"buildType"      : @"", // Android Only
 							 @"flavor"         : @""  // Android Only
 						};
@@ -71,9 +71,9 @@ SOFTWARE.
 		NSLog(@"BuildInfo name           : \"%@\"", [result objectForKey:@"name"]);
 		NSLog(@"BuildInfo version        : \"%@\"", [result objectForKey:@"version"]);
 		NSLog(@"BuildInfo versionCode    : \"%@\"", [result objectForKey:@"versionCode"]);
-        NSLog(@"BuildInfo debug          : %@"    , [[result objectForKey:@"debug"] boolValue] ? @"YES" : @"NO");
-        NSLog(@"BuildInfo buildType      : \"%@\"", [result objectForKey:@"buildType"]);
-        NSLog(@"BuildInfo buildTime      : \"%@\"", [result objectForKey:@"buildTime"]);
+		NSLog(@"BuildInfo debug          : %@"    , [[result objectForKey:@"debug"] boolValue] ? @"YES" : @"NO");
+		NSLog(@"BuildInfo buildType      : \"%@\"", [result objectForKey:@"buildType"]);
+		NSLog(@"BuildInfo buildTime      : \"%@\"", [result objectForKey:@"buildTime"]);
 		NSLog(@"BuildInfo flavor         : \"%@\"", [result objectForKey:@"flavor"]);
 	}
 

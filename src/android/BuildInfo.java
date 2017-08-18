@@ -150,9 +150,9 @@ public class BuildInfo extends CordovaPlugin {
 			mBuildInfoCache.put("name"           , displayName); // same as displayName
 			mBuildInfoCache.put("version"        , getClassFieldString(c, "VERSION_NAME", ""));
 			mBuildInfoCache.put("versionCode"    , getClassFieldInt(c, "VERSION_CODE", 0));
-            mBuildInfoCache.put("debug"          , debug);
-            mBuildInfoCache.put("buildTime"      , getAppTimeStamp(activity));
-            mBuildInfoCache.put("buildType"      , getClassFieldString(c, "BUILD_TYPE", ""));
+			mBuildInfoCache.put("debug"          , debug);
+			mBuildInfoCache.put("buildTime"      , getAppTimeStamp(activity));
+			mBuildInfoCache.put("buildType"      , getClassFieldString(c, "BUILD_TYPE", ""));
 			mBuildInfoCache.put("flavor"         , getClassFieldString(c, "FLAVOR", ""));
 
 			if (debug) {
@@ -162,9 +162,9 @@ public class BuildInfo extends CordovaPlugin {
 				Log.d(TAG, "name           : \"" + mBuildInfoCache.getString("name") + "\"");
 				Log.d(TAG, "version        : \"" + mBuildInfoCache.getString("version") + "\"");
 				Log.d(TAG, "versionCode    : " + mBuildInfoCache.getInt("versionCode"));
-                Log.d(TAG, "debug          : " + (mBuildInfoCache.getBoolean("debug") ? "true" : "false"));
-                Log.d(TAG, "buildTime      : \"" + mBuildInfoCache.getString("buildTime") + "\"");
-                Log.d(TAG, "buildType      : \"" + mBuildInfoCache.getString("buildType") + "\"");
+				Log.d(TAG, "debug          : " + (mBuildInfoCache.getBoolean("debug") ? "true" : "false"));
+				Log.d(TAG, "buildTime      : \"" + mBuildInfoCache.getString("buildTime") + "\"");
+				Log.d(TAG, "buildType      : \"" + mBuildInfoCache.getString("buildType") + "\"");
 				Log.d(TAG, "flavor         : \"" + mBuildInfoCache.getString("flavor") + "\"");
 			}
 		} catch (JSONException e) {

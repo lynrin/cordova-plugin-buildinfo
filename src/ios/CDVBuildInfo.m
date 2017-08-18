@@ -37,7 +37,20 @@ SOFTWARE.
 #else
 	NSNumber* debug = [NSNumber numberWithBool:NO];
 #endif
-
+    
+    // timestamp at compile time
+    NSString *compileDate = [NSString stringWithUTF8String:__DATE__];
+    NSString *compileTime = [NSString stringWithUTF8String:__TIME__];
+    
+    NSDateFormatter *dfParser = [[NSDateFormatter alloc] init];
+    [dfParser setDateFormat:@"MMM d yyyy"];
+    NSDate *buildDate = [dfParser dateFromString:compileDate];
+    
+    NSDateFormatter *dfOutput = [[NSDateFormatter alloc] init];
+    [dfOutput setDateFormat:@"yyyy-MM-dd"];
+    
+    NSString *buildTime = [NSString stringWithFormat:@"%@T%@Z", [dfOutput stringFromDate:buildDate], compileTime];
+    
 	NSDictionary* result = @{
 							 @"packageName"    : [bundle bundleIdentifier],
 							 @"basePackageName": [bundle bundleIdentifier],
@@ -46,6 +59,7 @@ SOFTWARE.
 							 @"version"        : [info objectForKey:@"CFBundleShortVersionString"],
 							 @"versionCode"    : [info objectForKey:@"CFBundleVersion"],
 							 @"debug"          : debug,
+                             @"buildTime"      : buildTime,
 							 @"buildType"      : @"", // Android Only
 							 @"flavor"         : @""  // Android Only
 						};
@@ -57,8 +71,9 @@ SOFTWARE.
 		NSLog(@"BuildInfo name           : \"%@\"", [result objectForKey:@"name"]);
 		NSLog(@"BuildInfo version        : \"%@\"", [result objectForKey:@"version"]);
 		NSLog(@"BuildInfo versionCode    : \"%@\"", [result objectForKey:@"versionCode"]);
-		NSLog(@"BuildInfo debug          : %@"    , [[result objectForKey:@"debug"] boolValue] ? @"YES" : @"NO");
-		NSLog(@"BuildInfo buildType      : \"%@\"", [result objectForKey:@"buildType"]);
+        NSLog(@"BuildInfo debug          : %@"    , [[result objectForKey:@"debug"] boolValue] ? @"YES" : @"NO");
+        NSLog(@"BuildInfo buildType      : \"%@\"", [result objectForKey:@"buildType"]);
+        NSLog(@"BuildInfo buildTime      : \"%@\"", [result objectForKey:@"buildTime"]);
 		NSLog(@"BuildInfo flavor         : \"%@\"", [result objectForKey:@"flavor"]);
 	}
 

@@ -34,6 +34,7 @@ cordova plugin add cordova-plugin-buildinfo
 
 * Android
 * iOS
+* Windows
 
 ## Properties
 
@@ -46,6 +47,10 @@ cordova plugin add cordova-plugin-buildinfo
 - `BuildInfo.debug`
 - `BuildInfo.buildType`
 - `BuildInfo.flavor`
+- `BuildInfo.windows`
+  - `logo`
+  - `version`
+
 
 ### BuildInfo.packageName
 
@@ -55,6 +60,7 @@ Get the packageName of Application ID.
 |--------|-----|----|
 |Android|Package Name|String|
 |iOS|Bundle Identifier|String|
+|Windows|Identity name|String|
 
 
 ### BuildInfo.basePackageName
@@ -71,6 +77,7 @@ If you use the configure of "build types" or "product flavors", because you can 
 |--------|-----|----|
 |Android|Package name of BuildConfig class|String|
 |iOS|Bundle Identifier(equals BuildInfo.packageName)|String|
+|Windows|Identity name(equals BuildInfo.packageName)|String|
 
 
 ### BuildInfo.displayName
@@ -81,6 +88,7 @@ Get the displayName.
 |--------|-----|----|
 |Android|Application Label|String|
 |iOS|CFBundleDisplayName|String|
+|Windows|Display a package name|String|
 
 ### BuildInfo.name
 
@@ -90,6 +98,7 @@ Get the name.
 |--------|-----|----|
 |Android|Application Label(equal BuildInfo.displayName)|String|
 |iOS|CFBundleName|String|
+|Windows|Windows Store display name|String|
 
 
 ### BuildInfo.version
@@ -100,6 +109,7 @@ Get the version.
 |--------|-----|----|
 |Android|BuildConfig.VERSION_NAME|String|
 |iOS|CFBundleShortVersionString|String|
+|Windows|Major . Minor . Build|String|
 
 
 ### BuildInfo.versionCode
@@ -110,6 +120,7 @@ Get the version code.
 |--------|-----|----|
 |Android|BuildConfig.VERSION_CODE|int|
 |iOS|CFBundleVersion|string|
+|Windows|Major . Minor . Build . Revision|String|
 
 
 ### BuildInfo.debug
@@ -120,11 +131,12 @@ Get the debug flag.
 |--------|-----|----|
 |Android|BuildConfig.DEBUG|Boolean
 |iOS|defined "DEBUG" is true|Boolean|
+|Windows|isDevelopmentMode is true|Boolean|
 
 
 ### BuildInfo.buildType
 
-Android Only.
+Android , Windows Only.
 
 Get the build type.
 
@@ -132,6 +144,7 @@ Get the build type.
 |--------|-----|----|
 |Android|BuildConfig.BUILD_TYPE|String|
 |iOS|empty string|String|
+|Windows|"release" or "debug"|String|
 
 
 ### BuildInfo.flavor
@@ -144,3 +157,50 @@ Get the flavor.
 |--------|-----|----|
 |Android|BuildConfig.FLAVOR|String|
 |iOS|empty string|String|
+|Windows|empty string|String|
+
+### BuildInfo.windows
+
+Windows Only.
+
+Get the windows extra information.
+
+|Platform|Value|Type|
+|--------|-----|----|
+|Android|undefined|undefined|
+|iOS|undefined|undefined|
+|Windows|Object|Object|
+
+|Property name|Value|Type|
+|-------------|-----|----|
+|architecture|Windows.ApplicationModel.Package.current.id.architecture|integer|
+|description|Windows.ApplicationModel.Package.current.description|String|
+|displayName|Windows.ApplicationModel.Package.current.displayName|String|
+|familyName|Windows.ApplicationModel.Package.current.id.familyName|String|
+|fullName|Windows.ApplicationModel.Package.current.id.fullName|String|
+|logo|Object|Object|
+|publisher|Windows.ApplicationModel.Package.current.id.publisher|String|
+|publisherId|Windows.ApplicationModel.Package.current.id.publisherId|String|
+|publisherDisplayName|Windows.ApplicationModel.Package.current.publisherDisplayName|String|
+|resourceId|Windows.ApplicationModel.Package.current.id.resourceId|String|
+|version|Windows.ApplicationModel.Package.current.id.version|Object|
+
+#### BuildInfo.windows.logo
+
+|Property name|Value|Type|
+|-------------|-----|----|
+|absoluteCannonicalUri|Windows.ApplicationModel.Package.logo.absoluteCanonicalUri|String|
+|absoluteUri|Windows.ApplicationModel.Package.logo.absoluteUri|String|
+|displayIri|Windows.ApplicationModel.Package.logo.displayIri|String|
+|displayUri|Windows.ApplicationModel.Package.logo.displayUri|String|
+|path|Windows.ApplicationModel.Package.logo.path|String|
+|rawUri|Windows.ApplicationModel.Package.logo.rawUri|String|
+
+#### BuildInfo.windows.version
+
+|Property name|Value|Type|
+|-------------|-----|----|
+|major|Windows.ApplicationModel.Package.current.id.version.major|integer|
+|minor|Windows.ApplicationModel.Package.current.id.version.minor|integer|
+|build|Windows.ApplicationModel.Package.current.id.version.build|integer|
+|revision|Windows.ApplicationModel.Package.current.id.version.revision|integer|

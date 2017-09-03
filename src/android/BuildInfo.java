@@ -25,6 +25,8 @@ SOFTWARE.
 package org.apache.cordova.buildinfo;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -35,7 +37,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 /**
  * BuildInfo Cordova Plugin
@@ -146,6 +151,7 @@ public class BuildInfo extends CordovaPlugin {
 			mBuildInfoCache.put("version"        , getClassFieldString(c, "VERSION_NAME", ""));
 			mBuildInfoCache.put("versionCode"    , getClassFieldInt(c, "VERSION_CODE", 0));
 			mBuildInfoCache.put("debug"          , debug);
+			mBuildInfoCache.put("buildTime"      , getAppTimeStamp(activity));
 			mBuildInfoCache.put("buildType"      , getClassFieldString(c, "BUILD_TYPE", ""));
 			mBuildInfoCache.put("flavor"         , getClassFieldString(c, "FLAVOR", ""));
 
@@ -157,6 +163,7 @@ public class BuildInfo extends CordovaPlugin {
 				Log.d(TAG, "version        : \"" + mBuildInfoCache.getString("version") + "\"");
 				Log.d(TAG, "versionCode    : " + mBuildInfoCache.getInt("versionCode"));
 				Log.d(TAG, "debug          : " + (mBuildInfoCache.getBoolean("debug") ? "true" : "false"));
+				Log.d(TAG, "buildTime      : \"" + mBuildInfoCache.getString("buildTime") + "\"");
 				Log.d(TAG, "buildType      : \"" + mBuildInfoCache.getString("buildType") + "\"");
 				Log.d(TAG, "flavor         : \"" + mBuildInfoCache.getString("flavor") + "\"");
 			}
@@ -251,5 +258,24 @@ public class BuildInfo extends CordovaPlugin {
 		}
 
 		return field;
+	}
+
+	private static String getAppTimeStamp(Context context) {
+		String timeStamp = "";
+
+		try {
+			ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), 0);
+			String appFile = appInfo.sourceDir;
+			long time = new File(appFile).lastModified();
+
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+			timeStamp = formatter.format(time);
+
+		} catch (Exception e) {
+            e.printStackTrace();
+		}
+
+		return timeStamp;
+
 	}
 }

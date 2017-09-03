@@ -33,6 +33,7 @@ module.exports = {
 	version: '',
 	versionCode: 0,
 	debug: false,
+	buildTime: '',
 	buildType: '',
 	flavor: ''
 };
@@ -89,6 +90,10 @@ channel.onCordovaReady.subscribe(function () {
 
 			if ('undefined' !== typeof res.flavor) {
 				module.exports.flavor = res.flavor;
+			}
+
+			if ('undefined' !== typeof res.buildTime) {
+				module.exports.buildTime = res.buildTime;
 			}
 		},
 		function (msg) {

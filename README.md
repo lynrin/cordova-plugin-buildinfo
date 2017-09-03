@@ -19,6 +19,7 @@ function onDeviceReady() {
 	console.log('BuildInfo.version        =' + BuildInfo.version);
 	console.log('BuildInfo.versionCode    =' + BuildInfo.versionCode);
 	console.log('BuildInfo.debug          =' + BuildInfo.debug);
+	console.log('BuildInfo.buildTime      =' + BuildInfo.buildTime);
 	console.log('BuildInfo.buildType      =' + BuildInfo.buildType);
 	console.log('BuildInfo.flavor         =' + BuildInfo.flavor);
 }
@@ -44,6 +45,7 @@ cordova plugin add cordova-plugin-buildinfo
 - `BuildInfo.version`
 - `BuildInfo.versionCode`
 - `BuildInfo.debug`
+- `BuildInfo.buildTime`
 - `BuildInfo.buildType`
 - `BuildInfo.flavor`
 
@@ -120,6 +122,20 @@ Get the debug flag.
 |--------|-----|----|
 |Android|BuildConfig.DEBUG|Boolean
 |iOS|defined "DEBUG" is true|Boolean|
+
+
+### BuildInfo.buildTime
+
+Get the build date and time in the same format new Date().toJSON() returns.
+
+Attention: There is no information about the timezones saved.
+- iOS: The iOS date is written in developer local time but interpreted in UTC
+- Android: The Android date is written in developer's local time and interpret in user's local time
+
+|Platform|Value|Type|
+|--------|-----|----|
+|Android|Datetime of last build folder modification|String|
+|iOS|Combination of \_\_DATE\_\_ and \_\_TIME\_\_ |String|
 
 
 ### BuildInfo.buildType

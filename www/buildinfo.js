@@ -95,6 +95,10 @@ channel.onCordovaReady.subscribe(function () {
 			if ('undefined' !== typeof res.buildTime) {
 				module.exports.buildTime = res.buildTime;
 			}
+
+			if ('undefined' !== typeof res.windows) {
+				module.exports.windows = res.windows;
+			}
 		},
 		function (msg) {
 			console.error('BuildInfo init fail');

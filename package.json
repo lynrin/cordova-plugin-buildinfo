@@ -6,7 +6,8 @@
     "id": "cordova-plugin-buildinfo",
     "platforms": [
       "android",
-      "ios"
+      "ios",
+      "windows"
     ]
   },
   "repository": {
@@ -21,7 +22,8 @@
     "cordova",
     "ecosystem:cordova",
     "cordova-android",
-    "cordova-ios"
+    "cordova-ios",
+    "cordova-windows"
   ],
   "scripts": {
     "test": "npm run jshint",

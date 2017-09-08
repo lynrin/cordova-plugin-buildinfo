@@ -25,8 +25,6 @@ SOFTWARE.
 package org.apache.cordova.buildinfo;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -37,10 +35,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
-import java.util.TimeZone;
 
 /**
  * BuildInfo Cordova Plugin
@@ -102,11 +98,13 @@ public class BuildInfo extends CordovaPlugin {
 		String packageName = activity.getPackageName();
 		String basePackageName = packageName;
 		CharSequence displayName = "";
+		long firstInstallTime = 0;
 
 		PackageManager pm = activity.getPackageManager();
 
 		try {
 			PackageInfo pi = pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+			firstInstallTime = pi.firstInstallTime;
 
 			if (null != pi.applicationInfo) {
 				displayName = pi.applicationInfo.loadLabel(pm);
@@ -151,7 +149,8 @@ public class BuildInfo extends CordovaPlugin {
 			mBuildInfoCache.put("version"        , getClassFieldString(c, "VERSION_NAME", ""));
 			mBuildInfoCache.put("versionCode"    , getClassFieldInt(c, "VERSION_CODE", 0));
 			mBuildInfoCache.put("debug"          , debug);
-			mBuildInfoCache.put("buildTime"      , getAppTimeStamp(activity));
+			mBuildInfoCache.put("buildDate"      , convertLongToDateTimeString(getClassFieldLong(c, "_BUILDINFO_TIMESTAMP", 0L)));
+			mBuildInfoCache.put("installDate"    , convertLongToDateTimeString(firstInstallTime));
 			mBuildInfoCache.put("buildType"      , getClassFieldString(c, "BUILD_TYPE", ""));
 			mBuildInfoCache.put("flavor"         , getClassFieldString(c, "FLAVOR", ""));
 
@@ -163,9 +162,10 @@ public class BuildInfo extends CordovaPlugin {
 				Log.d(TAG, "version        : \"" + mBuildInfoCache.getString("version") + "\"");
 				Log.d(TAG, "versionCode    : " + mBuildInfoCache.getInt("versionCode"));
 				Log.d(TAG, "debug          : " + (mBuildInfoCache.getBoolean("debug") ? "true" : "false"));
-				Log.d(TAG, "buildTime      : \"" + mBuildInfoCache.getString("buildTime") + "\"");
 				Log.d(TAG, "buildType      : \"" + mBuildInfoCache.getString("buildType") + "\"");
 				Log.d(TAG, "flavor         : \"" + mBuildInfoCache.getString("flavor") + "\"");
+				Log.d(TAG, "buildDate      : \"" + mBuildInfoCache.getString("buildDate") + "\"");
+				Log.d(TAG, "installDate    : \"" + mBuildInfoCache.getString("installDate") + "\"");
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -243,6 +243,28 @@ public class BuildInfo extends CordovaPlugin {
 	}
 
 	/**
+	 * Get long of field from Class
+	 * @param c
+	 * @param fieldName
+	 * @param defaultReturn
+     * @return
+     */
+	private static long getClassFieldLong(Class c, String fieldName, long defaultReturn) {
+		long ret = defaultReturn;
+		Field field = getClassField(c, fieldName);
+
+		if (null != field) {
+			try {
+				ret = field.getLong(c);
+			} catch (IllegalAccessException iae) {
+				iae.printStackTrace();
+			}
+		}
+
+		return ret;
+	}
+
+	/**
 	 * Get field from Class
 	 * @param c
 	 * @param fieldName
@@ -260,22 +282,8 @@ public class BuildInfo extends CordovaPlugin {
 		return field;
 	}
 
-	private static String getAppTimeStamp(Context context) {
-		String timeStamp = "";
-
-		try {
-			ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), 0);
-			String appFile = appInfo.sourceDir;
-			long time = new File(appFile).lastModified();
-
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-			timeStamp = formatter.format(time);
-
-		} catch (Exception e) {
-            e.printStackTrace();
-		}
-
-		return timeStamp;
-
+	private static String convertLongToDateTimeString(long mills) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+		return formatter.format(mills);
 	}
 }

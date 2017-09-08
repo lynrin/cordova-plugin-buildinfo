@@ -3,12 +3,13 @@
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-plugin-buildinfo"
-        version="1.1.0">
+        version="2.0.0">
     <name>BuildInfo</name>
     <description>Cordova/Phonegap Build Information Plugin. Get PackageName, Version, Debug and more...</description>
     <license>MIT</license>
     <keywords>debug,buildconfig,buildinfo,phonegap,cordova</keywords>
     <author>Mikihiro Hayashi</author>
+    <repo>https://github.com/lynrin/cordova-plugin-buildinfo</repo>
 
     <js-module src="www/buildinfo.js" name="BuildInfo">
         <clobbers target="BuildInfo"/>
@@ -25,6 +26,7 @@
             </feature>
         </config-file>
         <source-file src="src/android/BuildInfo.java" target-dir="src/org/apache/cordova/buildinfo"/>
+        <framework src="src/android/BuildInfo.gradle" custom="true" type="gradleReference"/>
     </platform>
 
     <platform name="ios">

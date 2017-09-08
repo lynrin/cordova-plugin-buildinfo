@@ -19,9 +19,10 @@ function onDeviceReady() {
 	console.log('BuildInfo.version        =' + BuildInfo.version);
 	console.log('BuildInfo.versionCode    =' + BuildInfo.versionCode);
 	console.log('BuildInfo.debug          =' + BuildInfo.debug);
-	console.log('BuildInfo.buildTime      =' + BuildInfo.buildTime);
 	console.log('BuildInfo.buildType      =' + BuildInfo.buildType);
 	console.log('BuildInfo.flavor         =' + BuildInfo.flavor);
+	console.log('BuildInfo.buildDate      =' + BuildInfo.buildDate);
+	console.log('BuildInfo.installDate    =' + BuildInfo.installDate);
 }
 ```
 
@@ -46,9 +47,10 @@ cordova plugin add cordova-plugin-buildinfo
 - `BuildInfo.version`
 - `BuildInfo.versionCode`
 - `BuildInfo.debug`
-- `BuildInfo.buildTime`
 - `BuildInfo.buildType`
 - `BuildInfo.flavor`
+- `BuildInfo.buildDate`
+- `BuildInfo.installDate`
 - `BuildInfo.windows`
   - `logo`
   - `version`
@@ -90,7 +92,7 @@ Get the displayName.
 |--------|-----|----|
 |Android|Application Label|String|
 |iOS|CFBundleDisplayName|String|
-|Windows|Display a package name|String|
+|Windows|Get DisplayName attribute of VisualElements element in AppxManifest.xml file.|String|
 
 ### BuildInfo.name
 
@@ -111,7 +113,7 @@ Get the version.
 |--------|-----|----|
 |Android|BuildConfig.VERSION_NAME|String|
 |iOS|CFBundleShortVersionString|String|
-|Windows|Major . Minor . Build|String|
+|Windows|Major.Minor.Build ex) "1.2.3"|String|
 
 
 ### BuildInfo.versionCode
@@ -122,7 +124,7 @@ Get the version code.
 |--------|-----|----|
 |Android|BuildConfig.VERSION_CODE|int|
 |iOS|CFBundleVersion|string|
-|Windows|Major . Minor . Build . Revision|String|
+|Windows|Major.Minor.Build.Revision ex) "1.2.3.4"|String|
 
 
 ### BuildInfo.debug
@@ -134,20 +136,6 @@ Get the debug flag.
 |Android|BuildConfig.DEBUG|Boolean
 |iOS|defined "DEBUG" is true|Boolean|
 |Windows|isDevelopmentMode is true|Boolean|
-
-
-### BuildInfo.buildTime
-
-Get the build date and time in the same format new Date().toJSON() returns.
-
-Attention: There is no information about the timezones saved.
-- iOS: The iOS date is written in developer local time but interpreted in UTC
-- Android: The Android date is written in developer's local time and interpret in user's local time
-
-|Platform|Value|Type|
-|--------|-----|----|
-|Android|Datetime of last build folder modification|String|
-|iOS|Combination of \_\_DATE\_\_ and \_\_TIME\_\_ |String|
 
 
 ### BuildInfo.buildType
@@ -174,6 +162,32 @@ Get the flavor.
 |Android|BuildConfig.FLAVOR|String|
 |iOS|empty string|String|
 |Windows|empty string|String|
+
+### BuildInfo.buildDate
+
+Get the build date and time in the Date object returns.
+
+Attention:
+- Android: Add the BuildInfo.gradle file to your Android project.  
+  The BuildInfo.gradle file contains the setting to add the _BUILDINFO_TIMESTAMP field to the BuildConfig class.
+
+|Platform|Value|Type|
+|--------|-----|----|
+|Android|BuildConfig.\_BUILDINFO\_TIMESTAMP value|Date|
+|iOS|Get the creation date and time of the Info.plist file acquired from the executionPath property of the main bundle.|Date|
+|Windows|Get Last modified date of AppxManifest.xml file.|Date|
+
+
+### BuildInfo.installDate
+
+Get the install date and time in the Date object returns.
+
+|Platform|Value|Type|
+|--------|-----|----|
+|Android|The firstInstallTime property of PackageInfo|Date|
+|iOS|Get creation date and time from executionPath property of main bundle.|Date|
+|Windows|The installedDate property of Windows.ApplicatinoModel.Package.current|Date|
+
 
 ### BuildInfo.windows
 

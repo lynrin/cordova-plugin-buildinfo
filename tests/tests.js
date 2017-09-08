@@ -52,6 +52,16 @@ exports.defineAutoTests = function () {
 			expect(window.BuildInfo.flavor).toBeDefined();
 			expect(typeof window.BuildInfo.flavor).toBe('string');
 		});
+
+		it ('should contain a BuildDate specification that is a Date', function () {
+			expect(window.BuildInfo.buildDate).toBeDefined();
+			expect(window.BuildInfo.buildDate instanceof Date).toBe(true);
+		});
+
+		it ('should contain a InstallDate specification that is a Date', function () {
+			expect(window.BuildInfo.installDate).toBeDefined();
+			expect(window.BuildInfo.installDate instanceof Date).toBe(true);
+		});
 	});
 };
 

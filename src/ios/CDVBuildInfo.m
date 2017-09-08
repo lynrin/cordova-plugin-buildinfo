@@ -38,19 +38,29 @@ SOFTWARE.
 	NSNumber* debug = [NSNumber numberWithBool:NO];
 #endif
     
-    // timestamp at compile time
-    NSString *compileDate = [NSString stringWithUTF8String:__DATE__];
-    NSString *compileTime = [NSString stringWithUTF8String:__TIME__];
-    
-    NSDateFormatter *dfParser = [[NSDateFormatter alloc] init];
-    [dfParser setDateFormat:@"MMM d yyyy"];
-    NSDate *buildDate = [dfParser dateFromString:compileDate];
-    
-    NSDateFormatter *dfOutput = [[NSDateFormatter alloc] init];
-    [dfOutput setDateFormat:@"yyyy-MM-dd"];
-    
-    NSString *buildTime = [NSString stringWithFormat:@"%@T%@Z", [dfOutput stringFromDate:buildDate], compileTime];
-    
+    // Info.plist modification date
+	NSString *buildDate = @"";
+	NSString *installDate = @"";
+	
+	NSDateFormatter *dfRFC3339 = [[NSDateFormatter alloc] init];
+	[dfRFC3339 setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
+	
+	NSString *exePath = [[NSBundle mainBundle] executablePath];
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"Info.plist" ofType:nil];
+	if (path) {
+		NSDictionary<NSFileAttributeKey, id>* attr = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
+		NSDate* creationDate = [attr objectForKey:NSFileCreationDate];
+		
+		buildDate = [dfRFC3339 stringFromDate:creationDate];
+	}
+	
+	if (exePath) {
+		NSDictionary<NSFileAttributeKey, id>* attrExe = [[NSFileManager defaultManager] attributesOfItemAtPath:exePath error:nil];
+		NSDate *appCreationDate = [attrExe objectForKey:NSFileCreationDate];
+		
+		installDate = [dfRFC3339 stringFromDate:appCreationDate];
+	}
+	
 	NSDictionary* result = @{
 							 @"packageName"    : [bundle bundleIdentifier],
 							 @"basePackageName": [bundle bundleIdentifier],
@@ -59,7 +69,8 @@ SOFTWARE.
 							 @"version"        : [info objectForKey:@"CFBundleShortVersionString"],
 							 @"versionCode"    : [info objectForKey:@"CFBundleVersion"],
 							 @"debug"          : debug,
-							 @"buildTime"      : buildTime,
+							 @"buildDate"      : buildDate,
+							 @"installDate"    : installDate,
 							 @"buildType"      : @"", // Android Only
 							 @"flavor"         : @""  // Android Only
 						};
@@ -73,7 +84,8 @@ SOFTWARE.
 		NSLog(@"BuildInfo versionCode    : \"%@\"", [result objectForKey:@"versionCode"]);
 		NSLog(@"BuildInfo debug          : %@"    , [[result objectForKey:@"debug"] boolValue] ? @"YES" : @"NO");
 		NSLog(@"BuildInfo buildType      : \"%@\"", [result objectForKey:@"buildType"]);
-		NSLog(@"BuildInfo buildTime      : \"%@\"", [result objectForKey:@"buildTime"]);
+		NSLog(@"BuildInfo buildDate      : \"%@\"", [result objectForKey:@"buildDate"]);
+		NSLog(@"BuildInfo installDate    : \"%@\"", [result objectForKey:@"installDate"]);
 		NSLog(@"BuildInfo flavor         : \"%@\"", [result objectForKey:@"flavor"]);
 	}
 

@@ -21,6 +21,8 @@ function onDeviceReady() {
 	console.log('BuildInfo.debug          =' + BuildInfo.debug);
 	console.log('BuildInfo.buildType      =' + BuildInfo.buildType);
 	console.log('BuildInfo.flavor         =' + BuildInfo.flavor);
+	console.log('BuildInfo.buildDate      =' + BuildInfo.buildDate);
+	console.log('BuildInfo.installDate    =' + BuildInfo.installDate);
 }
 ```
 
@@ -34,6 +36,7 @@ cordova plugin add cordova-plugin-buildinfo
 
 * Android
 * iOS
+* Windows
 
 ## Properties
 
@@ -46,6 +49,12 @@ cordova plugin add cordova-plugin-buildinfo
 - `BuildInfo.debug`
 - `BuildInfo.buildType`
 - `BuildInfo.flavor`
+- `BuildInfo.buildDate`
+- `BuildInfo.installDate`
+- `BuildInfo.windows`
+  - `logo`
+  - `version`
+
 
 ### BuildInfo.packageName
 
@@ -55,6 +64,7 @@ Get the packageName of Application ID.
 |--------|-----|----|
 |Android|Package Name|String|
 |iOS|Bundle Identifier|String|
+|Windows|Identity name|String|
 
 
 ### BuildInfo.basePackageName
@@ -71,6 +81,7 @@ If you use the configure of "build types" or "product flavors", because you can 
 |--------|-----|----|
 |Android|Package name of BuildConfig class|String|
 |iOS|Bundle Identifier(equals BuildInfo.packageName)|String|
+|Windows|Identity name(equals BuildInfo.packageName)|String|
 
 
 ### BuildInfo.displayName
@@ -81,6 +92,7 @@ Get the displayName.
 |--------|-----|----|
 |Android|Application Label|String|
 |iOS|CFBundleDisplayName|String|
+|Windows|Get DisplayName attribute of VisualElements element in AppxManifest.xml file.|String|
 
 ### BuildInfo.name
 
@@ -90,6 +102,7 @@ Get the name.
 |--------|-----|----|
 |Android|Application Label(equal BuildInfo.displayName)|String|
 |iOS|CFBundleName|String|
+|Windows|Windows Store display name|String|
 
 
 ### BuildInfo.version
@@ -100,6 +113,7 @@ Get the version.
 |--------|-----|----|
 |Android|BuildConfig.VERSION_NAME|String|
 |iOS|CFBundleShortVersionString|String|
+|Windows|Major.Minor.Build ex) "1.2.3"|String|
 
 
 ### BuildInfo.versionCode
@@ -110,6 +124,7 @@ Get the version code.
 |--------|-----|----|
 |Android|BuildConfig.VERSION_CODE|int|
 |iOS|CFBundleVersion|string|
+|Windows|Major.Minor.Build.Revision ex) "1.2.3.4"|String|
 
 
 ### BuildInfo.debug
@@ -120,11 +135,12 @@ Get the debug flag.
 |--------|-----|----|
 |Android|BuildConfig.DEBUG|Boolean
 |iOS|defined "DEBUG" is true|Boolean|
+|Windows|isDevelopmentMode is true|Boolean|
 
 
 ### BuildInfo.buildType
 
-Android Only.
+Android , Windows Only.
 
 Get the build type.
 
@@ -132,6 +148,7 @@ Get the build type.
 |--------|-----|----|
 |Android|BuildConfig.BUILD_TYPE|String|
 |iOS|empty string|String|
+|Windows|"release" or "debug"|String|
 
 
 ### BuildInfo.flavor
@@ -144,3 +161,79 @@ Get the flavor.
 |--------|-----|----|
 |Android|BuildConfig.FLAVOR|String|
 |iOS|empty string|String|
+|Windows|empty string|String|
+
+### BuildInfo.buildDate
+
+Get the build date and time in the Date object returns.
+
+Attention:
+- Android: Add the BuildInfo.gradle file to your Android project.  
+  The BuildInfo.gradle file contains the setting to add the _BUILDINFO_TIMESTAMP field to the BuildConfig class.
+- Windows: Add the buildinfo.resjson file to your Windows project.  
+  The buildinfo.resjson file into the "strings" folder.  
+  And also add a task to rewrite buildinfo.resjson in the CordovaApp.projitems file.
+
+|Platform|Value|Type|
+|--------|-----|----|
+|Android|BuildConfig.\_BUILDINFO\_TIMESTAMP value|Date|
+|iOS|Get the creation date and time of the document directory.|Date|
+|Windows|Resource value of "/buildinfo/Timestamp" string.|Date|
+
+
+### BuildInfo.installDate
+
+Get the install date and time in the Date object returns.
+
+|Platform|Value|Type|
+|--------|-----|----|
+|Android|The firstInstallTime property of PackageInfo|Date|
+|iOS|Get the modification date and time of the Info.plist file acquired from the executionPath property of the main bundle.|Date|
+|Windows|The installedDate property of Windows.ApplicatinoModel.Package.current|Date|
+
+
+### BuildInfo.windows
+
+Windows Only.
+
+Get the windows extra information.
+
+|Platform|Value|Type|
+|--------|-----|----|
+|Android|undefined|undefined|
+|iOS|undefined|undefined|
+|Windows|Object|Object|
+
+|Property name|Value|Type|
+|-------------|-----|----|
+|architecture|Windows.ApplicationModel.Package.current.id.architecture|integer|
+|description|Windows.ApplicationModel.Package.current.description|String|
+|displayName|Windows.ApplicationModel.Package.current.displayName|String|
+|familyName|Windows.ApplicationModel.Package.current.id.familyName|String|
+|fullName|Windows.ApplicationModel.Package.current.id.fullName|String|
+|logo|Object|Object|
+|publisher|Windows.ApplicationModel.Package.current.id.publisher|String|
+|publisherId|Windows.ApplicationModel.Package.current.id.publisherId|String|
+|publisherDisplayName|Windows.ApplicationModel.Package.current.publisherDisplayName|String|
+|resourceId|Windows.ApplicationModel.Package.current.id.resourceId|String|
+|version|Windows.ApplicationModel.Package.current.id.version|Object|
+
+#### BuildInfo.windows.logo
+
+|Property name|Value|Type|
+|-------------|-----|----|
+|absoluteCannonicalUri|Windows.ApplicationModel.Package.logo.absoluteCanonicalUri|String|
+|absoluteUri|Windows.ApplicationModel.Package.logo.absoluteUri|String|
+|displayIri|Windows.ApplicationModel.Package.logo.displayIri|String|
+|displayUri|Windows.ApplicationModel.Package.logo.displayUri|String|
+|path|Windows.ApplicationModel.Package.logo.path|String|
+|rawUri|Windows.ApplicationModel.Package.logo.rawUri|String|
+
+#### BuildInfo.windows.version
+
+|Property name|Value|Type|
+|-------------|-----|----|
+|major|Windows.ApplicationModel.Package.current.id.version.major|integer|
+|minor|Windows.ApplicationModel.Package.current.id.version.minor|integer|
+|build|Windows.ApplicationModel.Package.current.id.version.build|integer|
+|revision|Windows.ApplicationModel.Package.current.id.version.revision|integer|

@@ -33,6 +33,8 @@ module.exports = {
 	version: '',
 	versionCode: 0,
 	debug: false,
+	buildDate: '',
+	installDate: '',
 	buildType: '',
 	flavor: ''
 };
@@ -89,6 +91,26 @@ channel.onCordovaReady.subscribe(function () {
 
 			if ('undefined' !== typeof res.flavor) {
 				module.exports.flavor = res.flavor;
+			}
+
+			if ('undefined' !== typeof res.buildDate) {
+				if (res.buildDate instanceof Date) {
+					module.exports.buildDate = res.buildDate;
+				} else {
+					module.exports.buildDate = new Date(res.buildDate);
+				}
+			}
+
+			if ('undefined' !== typeof res.installDate) {
+				if (res.installDate instanceof Date) {
+					module.exports.installDate = res.installDate;
+				} else {
+					module.exports.installDate = new Date(res.installDate);
+				}
+			}
+
+			if ('undefined' !== typeof res.windows) {
+				module.exports.windows = res.windows;
 			}
 		},
 		function (msg) {

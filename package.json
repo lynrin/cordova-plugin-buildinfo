@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-buildinfo",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Cordova/Phonegap Build Information Plugin. Get PackageName, Version, Debug and more...",
   "cordova": {
     "id": "cordova-plugin-buildinfo",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lynrin/cordova-plugin-buildinfo.git"
+    "url": "https://github.com/lynrin/cordova-plugin-buildinfo.git"
   },
   "keywords": [
     "debug",

@@ -25,11 +25,42 @@ SOFTWARE.
 #import "CDVBuildInfo.h"
 #import <Cordova/CDV.h>
 
+#import <mach/mach_time.h>
+
 @implementation CDVBuildInfo
+
+CDVPluginResult* _cachePluginResult = nil;
+
+static mach_timebase_info_data_t sTimebaseInfo;
+
+void reportProfileProcessTime(const uint64_t start, const NSString *text) {
+	uint64_t end = mach_absolute_time();
+	
+	uint64_t elapsedNano = (end - start) * sTimebaseInfo.numer / sTimebaseInfo.denom;
+	
+	double elapsedSec = elapsedNano / 1000000000.0;
+	
+	NSLog(@"BuildInfo init: %.4f sec(%llu nsec): %@", elapsedSec, elapsedNano, text);
+}
 
 /* init */
 - (void)init:(CDVInvokedUrlCommand*)command
 {
+	// init mach_timebase
+	if (sTimebaseInfo.denom == 0) {
+		mach_timebase_info(&sTimebaseInfo);
+	}
+	
+	// Method start time.
+	uint64_t profilrStart = mach_absolute_time();
+	
+	// Cache
+	if (nil != _cachePluginResult) {
+		[self.commandDelegate sendPluginResult:_cachePluginResult callbackId:command.callbackId];
+		reportProfileProcessTime(profilrStart, @"Cache data return");
+		return;
+	}
+	
 	NSBundle* bundle = [NSBundle mainBundle];
 	NSDictionary* info = [bundle infoDictionary];
 #ifdef DEBUG
@@ -37,28 +68,31 @@ SOFTWARE.
 #else
 	NSNumber* debug = [NSNumber numberWithBool:NO];
 #endif
-    
-    // Info.plist modification date
+	
 	NSString *buildDate = @"";
 	NSString *installDate = @"";
 	
 	NSDateFormatter *dfRFC3339 = [[NSDateFormatter alloc] init];
 	[dfRFC3339 setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
 	
-	NSString *exePath = [[NSBundle mainBundle] executablePath];
-	NSString *path = [[NSBundle mainBundle] pathForResource:@"Info.plist" ofType:nil];
+	// Info.plist modification date
+	NSString *path = [bundle pathForResource:@"Info.plist" ofType:nil];
 	if (path) {
 		NSDictionary<NSFileAttributeKey, id>* attr = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
 		NSDate* creationDate = [attr objectForKey:NSFileCreationDate];
 		
-		buildDate = [dfRFC3339 stringFromDate:creationDate];
+		if (creationDate) {
+			buildDate = [dfRFC3339 stringFromDate:creationDate];
+		}
 	}
 	
-	if (exePath) {
-		NSDictionary<NSFileAttributeKey, id>* attrExe = [[NSFileManager defaultManager] attributesOfItemAtPath:exePath error:nil];
-		NSDate *appCreationDate = [attrExe objectForKey:NSFileCreationDate];
-		
-		installDate = [dfRFC3339 stringFromDate:appCreationDate];
+	// Document folder creation date
+	NSURL *urlDocument = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+	if (urlDocument) {
+		NSDate *creationDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:urlDocument.path error:nil] objectForKey:NSFileCreationDate];
+		if (creationDate) {
+			installDate = [dfRFC3339 stringFromDate:creationDate];
+		}
 	}
 	
 	NSDictionary* result = @{
@@ -90,8 +124,14 @@ SOFTWARE.
 	}
 
 	CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
+	
+	// Reulst cache
+	if (nil == _cachePluginResult) {
+		_cachePluginResult = pluginResult;
+	}
 
 	[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+	reportProfileProcessTime(profilrStart, @"Return");
 }
 
 @end

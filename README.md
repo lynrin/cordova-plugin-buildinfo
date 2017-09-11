@@ -177,7 +177,7 @@ Attention:
 |Platform|Value|Type|
 |--------|-----|----|
 |Android|BuildConfig.\_BUILDINFO\_TIMESTAMP value|Date|
-|iOS|Get the creation date and time of the document directory.|Date|
+|iOS|Get the modification date and time of the Info.plist file acquired from the executionPath property of the main bundle.|Date|
 |Windows|Resource value of "/buildinfo/Timestamp" string.|Date|
 
 
@@ -188,7 +188,7 @@ Get the install date and time in the Date object returns.
 |Platform|Value|Type|
 |--------|-----|----|
 |Android|The firstInstallTime property of PackageInfo|Date|
-|iOS|Get the modification date and time of the Info.plist file acquired from the executionPath property of the main bundle.|Date|
+|iOS|Get the creation date and time of the document directory.|Date|
 |Windows|The installedDate property of Windows.ApplicatinoModel.Package.current|Date|
 
 

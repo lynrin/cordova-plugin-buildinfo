@@ -34,13 +34,10 @@ CDVPluginResult* _cachePluginResult = nil;
 static mach_timebase_info_data_t sTimebaseInfo;
 
 void reportProfileProcessTime(const uint64_t start, const NSString *text) {
-	uint64_t end = mach_absolute_time();
 	
-	uint64_t elapsedNano = (end - start) * sTimebaseInfo.numer / sTimebaseInfo.denom;
+	uint64_t elapsedNano = (mach_absolute_time() - start) * sTimebaseInfo.numer / sTimebaseInfo.denom;
 	
-	double elapsedSec = elapsedNano / 1000000000.0;
-	
-	NSLog(@"BuildInfo init: %.4f sec(%llu nsec): %@", elapsedSec, elapsedNano, text);
+	NSLog(@"BuildInfo init: %.4f sec(%llu nsec): %@", elapsedNano / 1000000000.0, elapsedNano, text);
 }
 
 /* init */
@@ -61,6 +58,7 @@ void reportProfileProcessTime(const uint64_t start, const NSString *text) {
 		return;
 	}
 	
+	
 	NSBundle* bundle = [NSBundle mainBundle];
 	NSDictionary* info = [bundle infoDictionary];
 #ifdef DEBUG
@@ -79,10 +77,10 @@ void reportProfileProcessTime(const uint64_t start, const NSString *text) {
 	NSString *path = [bundle pathForResource:@"Info.plist" ofType:nil];
 	if (path) {
 		NSDictionary<NSFileAttributeKey, id>* attr = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
-		NSDate* creationDate = [attr objectForKey:NSFileCreationDate];
+		NSDate* modificationDate = [attr objectForKey:NSFileModificationDate];
 		
-		if (creationDate) {
-			buildDate = [dfRFC3339 stringFromDate:creationDate];
+		if (modificationDate) {
+			buildDate = [dfRFC3339 stringFromDate:modificationDate];
 		}
 	}
 	

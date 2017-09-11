@@ -1,10 +1,20 @@
 BuildInfoProxy = {
+    _cache: null,
+
     init: function (successCallback, errorCallback, args) {
+        if (null != this._cache) {
+            successCallback(this._cache);
+            return;
+        }
+
+        var self = this;
         var res = {};
         
         var package = Windows.ApplicationModel.Package.current; 
         var packId = package.id;
         var version = packId.version;
+
+        var timestamp = WinJS.Resources.getString('/buildinfo/Timestamp');
 
         res.packageName = packId.name;
         res.basePackageName = packId.name;
@@ -16,6 +26,7 @@ BuildInfoProxy = {
         res.buildType = (res.debug) ? "debug" : "release";
         res.flavor = "";
         res.installDate = package.installedDate;
+        res.buildDate = timestamp ? new Date(timestamp.value) : null;
 
         // Windows
         res.windows = {
@@ -54,20 +65,16 @@ BuildInfoProxy = {
                 log("buildDate      : \"" + res.buildDate + "\"");
                 log("installDate    : \"" + res.installDate + "\"");
             }
+
+            self._cache = res;
+
             successCallback(res);
         };
 
         package.installedLocation.getFileAsync('AppxManifest.xml')
             .then(function (file) {
-                var promises = [];
-
-                // Get Basic Properties
-                promises.push(file.getBasicPropertiesAsync().then(function (props) {
-                    return props;
-                }));
-
                 // File read and parse
-                promises.push(Windows.Storage.FileIO.readTextAsync(file).then(function (text) {
+                return Windows.Storage.FileIO.readTextAsync(file).then(function (text) {
                     var xdoc = new Windows.Data.Xml.Dom.XmlDocument();
                     xdoc.loadXml(text);
 
@@ -90,23 +97,11 @@ BuildInfoProxy = {
                     }
 
                     return { displayName: displayName };
-                }));
-
-                return WinJS.Promise.join(promises);
+                });
             })
-            .then(function (results) {
-                // BasicProperties
-                if (results && results[0]) {
-                    if (results[0].dateModified) {
-                        res.buildDate = results[0].dateModified;
-                    }
-                }
-
-                // File read and parse
-                if (results && results[1]) {
-                    if (results[1].displayName) {
-                        res.displayName = results[1].displayName;
-                    }
+            .then(function (result) {
+                if (result.displayName) {
+                    res.displayName = result.displayName;
                 }
 
                 return res;

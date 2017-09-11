@@ -11,12 +11,18 @@
     <author>Mikihiro Hayashi</author>
     <repo>https://github.com/lynrin/cordova-plugin-buildinfo</repo>
 
+    <hook type="after_plugin_install" src="scripts/after_install.js" />
+    <hook type="before_plugin_uninstall" src="scripts/before_uninstall.js" />
+
     <js-module src="www/buildinfo.js" name="BuildInfo">
         <clobbers target="BuildInfo"/>
     </js-module>
 
     <engines>
-        <engine name="cordova" version=">=4.0.0"/>
+        <engine name="cordova" version=">=5.4.0"/>
+        <engine name="cordova-ios" version=">=4.0.0"/>
+        <engine name="cordova-android" version=">=5.0.0"/>
+        <engine name="cordova-windows" version=">=4.0.0"/>
     </engines>
 
     <platform name="android">
@@ -43,5 +49,6 @@
         <js-module src="src/windows/BuildInfoProxy.js" name="BuildInfoProxy">
             <merges target=""/>
         </js-module>
+        <resource-file src="src/windows/buildinfo.resjson" target="strings/buildinfo.resjson" />
     </platform>
 </plugin>

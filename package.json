@@ -29,12 +29,22 @@
     "test": "npm run jshint",
     "jshint": "node node_modules/jshint/bin/jshint www && node node_modules/jshint/bin/jshint src && node node_modules/jshint/bin/jshint tests"
   },
-  "engines": [
-    {
-      "name": "cordova",
-      "version": ">=4.0.0"
+  "engines": {
+    "cordovaDependencies": {
+      "0.0.0": {
+        "cordova": ">=4.0.0"
+      },
+      "2.0.0": {
+        "cordova": ">=5.4.0",
+        "cordova-ios": ">=4.0.0",
+        "cordova-android": ">=5.0.0",
+        "cordova-windows": ">=4.0.0"
+      },
+      "3.0.0": {
+        "cordova": ">100"
+      }
     }
-  ],
+  },
   "author": "Mikihiro Hayashi",
   "license": "MIT",
   "bugs": {

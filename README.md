@@ -170,12 +170,15 @@ Get the build date and time in the Date object returns.
 Attention:
 - Android: Add the BuildInfo.gradle file to your Android project.  
   The BuildInfo.gradle file contains the setting to add the _BUILDINFO_TIMESTAMP field to the BuildConfig class.
+- Windows: Add the buildinfo.resjson file to your Windows project.  
+  The buildinfo.resjson file into the "strings" folder.  
+  And also add a task to rewrite buildinfo.resjson in the CordovaApp.projitems file.
 
 |Platform|Value|Type|
 |--------|-----|----|
 |Android|BuildConfig.\_BUILDINFO\_TIMESTAMP value|Date|
 |iOS|Get the creation date and time of the Info.plist file acquired from the executionPath property of the main bundle.|Date|
-|Windows|Get Last modified date of AppxManifest.xml file.|Date|
+|Windows|Resource value of "/buildinfo/Timestamp" string.|Date|
 
 
 ### BuildInfo.installDate

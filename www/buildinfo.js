@@ -39,86 +39,103 @@ module.exports = {
 	flavor: ''
 };
 
-channel.onCordovaReady.subscribe(function () {
-	// module.exports.init();
-	var args = [];
+function _buldinfoCheckCordovaPlatform() {
+	var allowPlatforms = ['android', 'ios', 'windows'];
+	var platformId = (cordova && cordova.platformId) ? cordova.platformId : null;
+	return (-1 !== allowPlatforms.indexOf(platformId));
+}
 
-	// Android Only
-	// defined buildInfoBuildConfigClassName variable
-	// BuildConfig class name.
-	// ex: <script>var buildInfoBuildConfigClassName = 'org.apache.cordova.sample.BuildConfig';</script>
-	if ('undefined' !== typeof buildInfoBuildConfigClassName) {
-		args.push(buildInfoBuildConfigClassName);
-	}
+if (_buldinfoCheckCordovaPlatform()) {
 
-	exec(
-		function (res) {
-			if (!res) {
-				return;
-			}
+	channel.onCordovaReady.subscribe(function () {
+		// Platform Check
+		var allowPlatforms = ['android', 'ios', 'windows'];
+		var platformId = (cordova && cordova.platformId) ? cordova.platformId : null;
+		if (-1 == allowPlatforms.indexOf(platformId)) {
+			console.debug('BuildInfo init skip.');
+			return;
+		}
 
-			if ('undefined' !== typeof res.packageName) {
-				module.exports.packageName = res.packageName;
-			}
+		// module.exports.init();
+		var args = [];
 
-			if ('undefined' !== typeof res.basePackageName) {
-				module.exports.basePackageName = res.basePackageName;
-			}
+		// Android Only
+		// defined buildInfoBuildConfigClassName variable
+		// BuildConfig class name.
+		// ex: <script>var buildInfoBuildConfigClassName = 'org.apache.cordova.sample.BuildConfig';</script>
+		if ('undefined' !== typeof buildInfoBuildConfigClassName) {
+			args.push(buildInfoBuildConfigClassName);
+		}
 
-			if ('undefined' !== typeof res.displayName) {
-				module.exports.displayName = res.displayName;
-			}
-
-			if ('undefined' !== typeof res.name) {
-				module.exports.name = res.name;
-			}
-
-			if ('undefined' !== typeof res.version) {
-				module.exports.version = res.version;
-			}
-
-			if ('undefined' !== typeof res.versionCode) {
-				module.exports.versionCode = res.versionCode;
-			}
-
-			if ('undefined' !== typeof res.debug) {
-				module.exports.debug = res.debug;
-			}
-
-			if ('undefined' !== typeof res.buildType) {
-				module.exports.buildType = res.buildType;
-			}
-
-			if ('undefined' !== typeof res.flavor) {
-				module.exports.flavor = res.flavor;
-			}
-
-			if ('undefined' !== typeof res.buildDate) {
-				if (res.buildDate instanceof Date) {
-					module.exports.buildDate = res.buildDate;
-				} else {
-					module.exports.buildDate = new Date(res.buildDate);
+		exec(
+			function (res) {
+				if (!res) {
+					return;
 				}
-			}
 
-			if ('undefined' !== typeof res.installDate) {
-				if (res.installDate instanceof Date) {
-					module.exports.installDate = res.installDate;
-				} else {
-					module.exports.installDate = new Date(res.installDate);
+				if ('undefined' !== typeof res.packageName) {
+					module.exports.packageName = res.packageName;
 				}
-			}
 
-			if ('undefined' !== typeof res.windows) {
-				module.exports.windows = res.windows;
-			}
-		},
-		function (msg) {
-			console.error('BuildInfo init fail');
-			console.error(msg);
-		},
-		'BuildInfo',
-		'init',
-		args
-	);
-});
+				if ('undefined' !== typeof res.basePackageName) {
+					module.exports.basePackageName = res.basePackageName;
+				}
+
+				if ('undefined' !== typeof res.displayName) {
+					module.exports.displayName = res.displayName;
+				}
+
+				if ('undefined' !== typeof res.name) {
+					module.exports.name = res.name;
+				}
+
+				if ('undefined' !== typeof res.version) {
+					module.exports.version = res.version;
+				}
+
+				if ('undefined' !== typeof res.versionCode) {
+					module.exports.versionCode = res.versionCode;
+				}
+
+				if ('undefined' !== typeof res.debug) {
+					module.exports.debug = res.debug;
+				}
+
+				if ('undefined' !== typeof res.buildType) {
+					module.exports.buildType = res.buildType;
+				}
+
+				if ('undefined' !== typeof res.flavor) {
+					module.exports.flavor = res.flavor;
+				}
+
+				if ('undefined' !== typeof res.buildDate) {
+					if (res.buildDate instanceof Date) {
+						module.exports.buildDate = res.buildDate;
+					} else {
+						module.exports.buildDate = new Date(res.buildDate);
+					}
+				}
+
+				if ('undefined' !== typeof res.installDate) {
+					if (res.installDate instanceof Date) {
+						module.exports.installDate = res.installDate;
+					} else {
+						module.exports.installDate = new Date(res.installDate);
+					}
+				}
+
+				if ('undefined' !== typeof res.windows) {
+					module.exports.windows = res.windows;
+				}
+			},
+			function (msg) {
+				console.error('BuildInfo init fail');
+				console.error(msg);
+			},
+			'BuildInfo',
+			'init',
+			args
+		);
+	});
+}

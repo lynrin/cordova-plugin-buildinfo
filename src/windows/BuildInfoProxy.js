@@ -2,7 +2,7 @@ BuildInfoProxy = {
     _cache: null,
 
     init: function (successCallback, errorCallback, args) {
-        if (null != this._cache) {
+        if (null !== this._cache) {
             successCallback(this._cache);
             return;
         }

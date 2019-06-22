@@ -2,12 +2,13 @@ BuildInfoProxy = {
     _cache: null,
 
     init: function (successCallback, errorCallback, args) {
-        if (null !== this._cache) {
-            successCallback(this._cache);
+        var self = BuildInfoProxy;
+
+        if (null !== self._cache) {
+            successCallback(self._cache);
             return;
         }
 
-        var self = this;
         var res = {};
         
         var package = Windows.ApplicationModel.Package.current; 

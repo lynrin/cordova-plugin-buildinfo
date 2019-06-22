@@ -122,8 +122,8 @@ Get the version code.
 
 |Platform|Value|Type|
 |--------|-----|----|
-|Android|BuildConfig.VERSION_CODE|int|
-|iOS|CFBundleVersion|string|
+|Android|BuildConfig.VERSION_CODE|integer|
+|iOS|CFBundleVersion|String|
 |Windows|Major.Minor.Build.Revision ex) "1.2.3.4"|String|
 
 

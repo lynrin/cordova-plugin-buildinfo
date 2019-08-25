@@ -26,7 +26,7 @@ BuildInfoProxy = {
     _cache: null,
 
     init: function (successCallback, errorCallback, args) {
-        const self = BuildInfoProxy;
+        var self = BuildInfoProxy;
 
         if (null !== self._cache) {
             successCallback(self._cache);
@@ -35,10 +35,10 @@ BuildInfoProxy = {
 
         try {
             /* <EMBED_CODE> */
-            const json = {"debug":null,"buildDate":null,"packageName":null,"basePackageName":null,"name":null,"displayName":null,"version":null,"versionCode":null,"buildType":null,"flavor":null};;
+            var json = {"debug":null,"buildDate":null,"packageName":null,"basePackageName":null,"name":null,"displayName":null,"version":null,"versionCode":null,"buildType":null,"flavor":null};
             /* </EMBED_CODE> */
 
-            const ret = {
+            var ret = {
                 packageName    : json.packageName     || null,
                 basePackageName: json.basePackageName || null,
                 displayName    : json.displayName     || json.name || null,
@@ -47,7 +47,7 @@ BuildInfoProxy = {
                 versionCode    : json.versionCode     || null,
                 debug          : json.debug           || false,
                 buildDate      : json.buildDate       || null
-            }
+            };
 
             self._cache = ret;
             successCallback(ret);

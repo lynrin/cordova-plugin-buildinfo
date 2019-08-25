@@ -3,7 +3,7 @@
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-plugin-buildinfo"
-        version="2.0.3">
+        version="3.0.0">
     <name>BuildInfo</name>
     <description>Cordova/Phonegap Build Information Plugin. Get PackageName, Version, Debug and more...</description>
     <license>MIT</license>
@@ -23,6 +23,8 @@
         <engine name="cordova-ios" version=">=4.0.0"/>
         <engine name="cordova-android" version=">=5.0.0"/>
         <engine name="cordova-windows" version=">=4.0.0"/>
+        <engine name="cordova-browser" version=">=6.0.0"/>
+        <engine name="cordova-electron" version=">=1.0.0"/>
     </engines>
 
     <platform name="android">
@@ -50,5 +52,19 @@
             <merges target=""/>
         </js-module>
         <resource-file src="src/windows/buildinfo.resjson" target="strings/buildinfo.resjson" />
+    </platform>
+
+    <platform name="browser">
+        <js-module src="src/browser/BuildInfoProxy.js" name="BuildInfoProxy">
+            <merges target=""/>
+        </js-module>
+        <hook type="after_prepare" src="scripts/browser_after_prepare.js" />
+    </platform>
+    
+    <platform name="electron">
+        <js-module src="src/browser/BuildInfoProxy.js" name="BuildInfoProxy">
+            <merges target=""/>
+        </js-module>
+        <hook type="after_prepare" src="scripts/browser_after_prepare.js" />
     </platform>
 </plugin>

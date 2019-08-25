@@ -26,6 +26,7 @@ var exec = require('cordova/exec');
 var channel = require('cordova/channel');
 
 module.exports = {
+	baseUrl: null,
 	packageName: '',
 	basePackageName: '',
 	displayName: '',
@@ -33,30 +34,48 @@ module.exports = {
 	version: '',
 	versionCode: 0,
 	debug: false,
-	buildDate: '',
-	installDate: '',
+	buildDate: null,
+	installDate: null,
 	buildType: '',
 	flavor: ''
 };
 
 function _buldinfoCheckCordovaPlatform() {
-	var allowPlatforms = ['android', 'ios', 'windows'];
+	var allowPlatforms = ['android', 'ios', 'windows', 'browser', 'electron'];
 	var platformId = (cordova && cordova.platformId) ? cordova.platformId : null;
 	return (-1 !== allowPlatforms.indexOf(platformId));
 }
+
+function _findBaseUrl() {
+	var path = null;
+	var scripts = document.getElementsByTagName('script');
+	var findScriptPath = '/cordova.js';
+	var findScriptPathLen = findScriptPath.length;
+
+	for (var i = scripts.length - 1; i >= 0; i--) {
+		var src = scripts[i].src.replace(/\?.*$/, '');
+
+		if (src.length >= findScriptPathLen && src.substring(src.length - findScriptPathLen) == findScriptPath) {
+			path = src.substring(0, src.length - findScriptPathLen) + '/';
+			break;
+		}
+	}
+
+	return path;
+}
+
 
 if (_buldinfoCheckCordovaPlatform()) {
 
 	channel.onCordovaReady.subscribe(function () {
 		// Platform Check
-		var allowPlatforms = ['android', 'ios', 'windows'];
+		var allowPlatforms = ['android', 'ios', 'windows', 'browser', 'electron'];
 		var platformId = (cordova && cordova.platformId) ? cordova.platformId : null;
 		if (-1 == allowPlatforms.indexOf(platformId)) {
 			console.debug('BuildInfo init skip.');
 			return;
 		}
 
-		// module.exports.init();
 		var args = [];
 
 		// Android Only
@@ -72,6 +91,8 @@ if (_buldinfoCheckCordovaPlatform()) {
 				if (!res) {
 					return;
 				}
+
+				module.exports.baseUrl = _findBaseUrl();
 
 				if ('undefined' !== typeof res.packageName) {
 					module.exports.packageName = res.packageName;

@@ -4,6 +4,11 @@ exports.defineAutoTests = function () {
 			expect(window.BuildInfo).toBeDefined();
 		});
 
+		it ('should contain a Base URL specification that is a string', function () {
+			expect(window.BuildInfo.baseUrl).toBeDefined();
+			expect((String(window.BuildInfo.baseUrl)).length > 0).toBe(true);
+		});
+
 		it ('should contain a PackageName specification that is a string', function () {
 			expect(window.BuildInfo.packageName).toBeDefined();
 			expect((String(window.BuildInfo.packageName)).length > 0).toBe(true);
@@ -60,7 +65,9 @@ exports.defineAutoTests = function () {
 
 		it ('should contain a InstallDate specification that is a Date', function () {
 			expect(window.BuildInfo.installDate).toBeDefined();
-			expect(window.BuildInfo.installDate instanceof Date).toBe(true);
+			if (null !== window.BuildInfo.installDate) {
+				expect(window.BuildInfo.installDate instanceof Date).toBe(true);
+			}
 		});
 	});
 };

@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-buildinfo",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Cordova/Phonegap Build Information Plugin. Get PackageName, Version, Debug and more...",
   "cordova": {
     "id": "cordova-plugin-buildinfo",

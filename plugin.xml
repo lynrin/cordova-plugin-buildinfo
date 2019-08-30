@@ -3,7 +3,7 @@
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-plugin-buildinfo"
-        version="3.0.0">
+        version="3.0.1">
     <name>BuildInfo</name>
     <description>Cordova/Phonegap Build Information Plugin. Get PackageName, Version, Debug and more...</description>
     <license>MIT</license>
@@ -17,15 +17,6 @@
     <js-module src="www/buildinfo.js" name="BuildInfo">
         <clobbers target="BuildInfo"/>
     </js-module>
-
-    <engines>
-        <engine name="cordova" version=">=5.4.0"/>
-        <engine name="cordova-ios" version=">=4.0.0"/>
-        <engine name="cordova-android" version=">=5.0.0"/>
-        <engine name="cordova-windows" version=">=4.0.0"/>
-        <engine name="cordova-browser" version=">=6.0.0"/>
-        <engine name="cordova-electron" version=">=1.0.0"/>
-    </engines>
 
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">

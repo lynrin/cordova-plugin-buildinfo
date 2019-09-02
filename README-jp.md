@@ -34,25 +34,27 @@ cordova plugin add cordova-plugin-buildinfo
 * Android
 * iOS
 * Windows
+* macOS(OS X)
 * Browser
 * Electron
 
 ## プロパティ
 
-* BuildInfo.baseUrl
-* BuildInfo.packageName
-* BuildInfo.displayName
-* BuildInfo.name
-* BuildInfo.version
-* BuildInfo.versionCode
-* BuildInfo.debug
-* BuildInfo.buildType
-* BuildInfo.flavor
-* BuildInfo.buildDate
-* BuildInfo.installDate
-* BuildInfo.windows
-    - logo
-    - version
+- [`BuildInfo.baseUrl`](#BuildInfo.baseUrl)
+- [`BuildInfo.packageName`](#BuildInfo.packageName)
+- [`BuildInfo.basePackageName`](#BuildInfo.basePackageName)
+- [`BuildInfo.displayName`](#BuildInfo.displayName)
+- [`BuildInfo.name`](#BuildInfo.name)
+- [`BuildInfo.version`](#BuildInfo.version)
+- [`BuildInfo.versionCode`](#BuildInfo.versionCode)
+- [`BuildInfo.debug`](#BuildInfo.debug)
+- [`BuildInfo.buildType`](#BuildInfo.buildType)
+- [`BuildInfo.flavor`](#BuildInfo.flavor)
+- [`BuildInfo.buildDate`](#BuildInfo.buildDate)
+- [`BuildInfo.installDate`](#BuildInfo.installDate)
+- [`BuildInfo.windows`](#BuildInfo.windows)
+  - [`logo`](#BuildInfo.windows.logo)
+  - [`version`](#BuildInfo.windows.version)
 
 ### BuildInfo.baseUrl
 
@@ -64,6 +66,7 @@ cordova.js ファイルがあるパスを取得します。
 |Android|Path|String|
 |iOS|Path|String|
 |Windows|Path|String|
+|macOS(OS X)|Path|String|
 |Browser|Path|String|
 |Electron|Path|String|
 
@@ -76,6 +79,7 @@ Application IDをpackageNameとして取得します。
 |Android|Package Name|String|
 |iOS|Bundle Identifier|String|
 |Windows|Identity name|String|
+|macOS(OS X)|Bundle Identifier|String|
 |Browser|config.xml の widget 要素に設定されている id 属性の値が入ります|String|
 |Electron|config.xml の widget 要素に設定されている id 属性の値が入ります|String|
 
@@ -95,6 +99,7 @@ BuildConfigクラスのpackageNameを取得します。
 |Android|BuildConfigクラスにあるパッケージ名|String|
 |iOS|Bundle Identifier(BuildInfo.packageNameと同一)|String|
 |Windows|Identity name(BuildInfo.packageNameと同一)|String|
+|macOS(OS X)|Bundle Identifier(BuildInfo.packageNameと同一)|String|
 |Browser|BuildInfo.packageName と同一|String|
 |Electron|BuildInfo.packageName と同一|String|
 
@@ -106,8 +111,9 @@ BuildConfigクラスのpackageNameを取得します。
 |Platform|Value|Type|
 |--------|-----|----|
 |Android|Application Label|String|
-|iOS|CFBundleDisplayName|String|
+|iOS|CFBundleDisplayName(存在しない場合はCFBundleName)|String|
 |Windows|AppxManifest.xmlのVisualElements要素にあるDisplayName属性|String|
+|macOS(OS X)|CFBundleDisplayName(存在しない場合はCFBundleName)|String|
 |Browser|config.xml の name 要素の short 属性の値が入ります|String|
 |Electron|config.xml の name 要素の short 属性の値が入ります|String|
 
@@ -121,6 +127,7 @@ BuildConfigクラスのpackageNameを取得します。
 |Android|Application Label(BuildInfo.displayNameと同一)|String|
 |iOS|CFBundleName|String|
 |Windows|Windows Store display name|String|
+|macOS(OS X)|CFBundleName|String|
 |Browser|config.xml の name 要素の内容が入ります|String|
 |Electron|config.xml の name 要素の内容が入ります|String|
 
@@ -134,6 +141,7 @@ BuildConfigクラスのpackageNameを取得します。
 |Android|BuildConfig.VERSION_NAME|String|
 |iOS|CFBundleShortVersionString|String|
 |Windows|Major.Minor.Build 例) "1.2.3"|String|
+|macOS(OS X)|CFBundleShortVersionString|String|
 |Browser|config.xml の widget 要素の version 属性の値が入ります|String|
 |Electron|config.xml の widget 要素の version 属性の値が入ります|String|
 
@@ -148,6 +156,7 @@ AndroidではINT型で提供されます。
 |Android|BuildConfig.VERSION_CODE|int|
 |iOS|CFBundleVersion|string|
 |Windows|Major.Minor.Build.Revision 例) "1.2.3.4"|String|
+|macOS(OS X)|CFBundleVersion|string|
 |Browser|BuildInfo.version と同一|String|
 |Electron|BuildInfo.version と同一|String|
 
@@ -174,6 +183,7 @@ AndroidではINT型で提供されます。
 |Android|BuildConfig.BUILD_TYPE|String|
 |iOS|empty string|String|
 |Windows|"release" or "debug"|String|
+|macOS(OS X)|empty string|String|
 |Browser|empty string|String|
 |Electron|empty string|String|
 
@@ -187,6 +197,7 @@ AndroidではINT型で提供されます。
 |Android|BuildConfig.FLAVOR|String|
 |iOS|empty string|String|
 |Windows|empty string|String|
+|macOS(OS X)|empty string|String|
 |Browser|empty string|String|
 |Electron|empty string|String|
 
@@ -213,6 +224,7 @@ Dateオブジェクトとしてビルド日時を取得します。
 |Android|BuildConfig.\_BUILDINFO\_TIMESTAMP value|Date|
 |iOS|メインバンドルのexecutionPathから取得したInfo.plistの更新日時|Date|
 |Windows|文字列リソースの "/buildinfo/Timestamp" 値を返します|Date|
+|macOS(OS X)|メインバンドルのリソースから取得したconfig.xmlの更新日時|Date|
 |Browser|```cordova prepare```が実行された日時|Date|
 |Electron|```cordova prepare```が実行された日時|Date|
 
@@ -229,6 +241,7 @@ Dateオブジェクトとしてインストール日時を返します
 |Android|PackageInfoのfirstInstallTimeプロパティ|Date|
 |iOS|documentディレクトリの作成日時|Date|
 |Windows|Windows.ApplicatinoModel.Package.currentのinstalledDateプロパティ|Date|
+|macOS(OS X)|アプリケーションパッケージのFile Metadataに記録されている kMDItemDateAdded の日時|Date|
 |Browser|常に null|null|
 |Electron|常に null|null|
 
@@ -244,6 +257,7 @@ Windowsの追加情報を格納しています。
 |Android|(未定義)|undefined|
 |iOS|(未定義)|undefined|
 |Windows|Object|Object|
+|macOS(OS X)|(未定義)|undefined|
 |Browser|(未定義)|undefined|
 |Electron|(未定義)|undefined|
 

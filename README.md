@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/lynrin/cordova-plugin-buildinfo.svg?branch=master)](https://travis-ci.org/lynrin/cordova-plugin-buildinfo)
 [![Code Climate](https://codeclimate.com/github/lynrin/cordova-plugin-buildinfo/badges/gpa.svg)](https://codeclimate.com/github/lynrin/cordova-plugin-buildinfo)
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![MIT License](https://img.shields.io/github/license/lynrin/cordova-plugin-buildinfo)](LICENSE)
+[![downloads](https://img.shields.io/npm/dm/cordova-plugin-buildinfo)](https://www.npmjs.com/package/cordova-plugin-buildinfo)
+
 
 # cordova-plugin-buildinfo
 
@@ -38,26 +40,27 @@ cordova plugin add cordova-plugin-buildinfo
 * Android
 * iOS
 * Windows
+* macOS(OS X)
 * Browser
 * Electron
 
 ## Properties
 
-- `BuildInfo.baseUrl`
-- `BuildInfo.packageName`
-- `BuildInfo.basePackageName`
-- `BuildInfo.displayName`
-- `BuildInfo.name`
-- `BuildInfo.version`
-- `BuildInfo.versionCode`
-- `BuildInfo.debug`
-- `BuildInfo.buildType`
-- `BuildInfo.flavor`
-- `BuildInfo.buildDate`
-- `BuildInfo.installDate`
-- `BuildInfo.windows`
-  - `logo`
-  - `version`
+- [`BuildInfo.baseUrl`](#BuildInfo.baseUrl)
+- [`BuildInfo.packageName`](#BuildInfo.packageName)
+- [`BuildInfo.basePackageName`](#BuildInfo.basePackageName)
+- [`BuildInfo.displayName`](#BuildInfo.displayName)
+- [`BuildInfo.name`](#BuildInfo.name)
+- [`BuildInfo.version`](#BuildInfo.version)
+- [`BuildInfo.versionCode`](#BuildInfo.versionCode)
+- [`BuildInfo.debug`](#BuildInfo.debug)
+- [`BuildInfo.buildType`](#BuildInfo.buildType)
+- [`BuildInfo.flavor`](#BuildInfo.flavor)
+- [`BuildInfo.buildDate`](#BuildInfo.buildDate)
+- [`BuildInfo.installDate`](#BuildInfo.installDate)
+- [`BuildInfo.windows`](#BuildInfo.windows)
+  - [`logo`](#BuildInfo.windows.logo)
+  - [`version`](#BuildInfo.windows.version)
 
 ### BuildInfo.baseUrl
 
@@ -69,6 +72,7 @@ Path last character is '/'.
 |Android|Path|String|
 |iOS|Path|String|
 |Windows|Path|String|
+|macOS(OS X)|Path|String|
 |Browser|Path|String|
 |Electron|Path|String|
 
@@ -81,6 +85,7 @@ Get the packageName of Application ID.
 |Android|Package Name|String|
 |iOS|Bundle Identifier|String|
 |Windows|Identity name|String|
+|macOS(OS X)|Bundle Identifier|String|
 |Browser|Get the id attribute of the widget element in config.xml file.|String|
 |Electron|Get the id attribute of the widget element in config.xml file.|String|
 
@@ -100,6 +105,7 @@ If you use the configure of "build types" or "product flavors", because you can 
 |Android|Package name of BuildConfig class|String|
 |iOS|Bundle Identifier(equals BuildInfo.packageName)|String|
 |Windows|Identity name(equals BuildInfo.packageName)|String|
+|macOS(OS X)|Bundle Identifier(equals BuildInfo.packageName)|String|
 |Browser|equals BuildInfo.packageName|String|
 |Electron|equals BuildInfo.packageName|String|
 
@@ -111,8 +117,9 @@ Get the displayName.
 |Platform|Value|Type|
 |--------|-----|----|
 |Android|Application Label|String|
-|iOS|CFBundleDisplayName|String|
+|iOS|CFBundleDisplayName (CFBundleName if not present)|String|
 |Windows|Get the DisplayName attribute of the VisualElements element in AppxManifest.xml file.|String|
+|macOS(OS X)|CFBundleDisplayName (CFBundleName if not present)|String|
 |Browser|Get the short attribute of the name element in config.xml file.|String|
 |Electron|Get the short attribute of the name element in config.xml file.|String|
 
@@ -125,6 +132,7 @@ Get the name.
 |Android|Application Label(equal BuildInfo.displayName)|String|
 |iOS|CFBundleName|String|
 |Windows|Windows Store display name|String|
+|macOS(OS X)|CFBundleName|String|
 |Browser|Get value of the name element in config.xml file.|String|
 |Electron|Get value of the name element in config.xml file.|String|
 
@@ -138,6 +146,7 @@ Get the version.
 |Android|BuildConfig.VERSION_NAME|String|
 |iOS|CFBundleShortVersionString|String|
 |Windows|Major.Minor.Build ex) "1.2.3"|String|
+|macOS(OS X)|CFBundleShortVersionString|String|
 |Browser|Get the version attribute of the widget element in config.xml file.|String|
 |Electron|Get the version attribute of the widget element in config.xml file.|String|
 
@@ -151,6 +160,7 @@ Get the version code.
 |Android|BuildConfig.VERSION_CODE|integer|
 |iOS|CFBundleVersion|String|
 |Windows|Major.Minor.Build.Revision ex) "1.2.3.4"|String|
+|macOS(OS X)|CFBundleVersion|String|
 |Browser|equals BuildInfo.version|String|
 |Electron|equals BuildInfo.version|String|
 
@@ -164,6 +174,7 @@ Get the debug flag.
 |Android|BuildConfig.DEBUG|Boolean|
 |iOS|defined "DEBUG" is true|Boolean|
 |Windows|isDevelopmentMode is true|Boolean|
+|macOS(OS X)|defined "DEBUG" is true|Boolean|
 |Browser|Always false|Boolean|
 |Electron|True when ```cordova build electron --debug``` is executed with the "--debug" flag.|Boolean|
 
@@ -179,6 +190,7 @@ Get the build type.
 |Android|BuildConfig.BUILD_TYPE|String|
 |iOS|empty string|String|
 |Windows|"release" or "debug"|String|
+|macOS(OS X)|empty string|String|
 |Browser|empty string|String|
 |Electron|empty string|String|
 
@@ -194,6 +206,7 @@ Get the flavor.
 |Android|BuildConfig.FLAVOR|String|
 |iOS|empty string|String|
 |Windows|empty string|String|
+|macOS(OS X)|empty string|String|
 |Browser|empty string|String|
 |Electron|empty string|String|
 
@@ -218,6 +231,7 @@ Attention:
 |Android|BuildConfig.\_BUILDINFO\_TIMESTAMP value|Date|
 |iOS|Get the modification date and time of the Info.plist file acquired from the executionPath property of the main bundle.|Date|
 |Windows|Resource value of "/buildinfo/Timestamp" string.|Date|
+|macOS(OS X)|Get the modification date and time of the config.xml file acquired from the resource of the main bundle.|Date|
 |Browser|The date and time when ```cordova prepare``` was executed.|Date|
 |Electron|The date and time when ```cordova prepare``` was executed.|Date|
 
@@ -234,6 +248,7 @@ Attention:
 |Android|The firstInstallTime property of PackageInfo|Date|
 |iOS|Get the creation date and time of the document directory.|Date|
 |Windows|The installedDate property of Windows.ApplicatinoModel.Package.current|Date|
+|macOS(OS X)|Date and time of kMDItemDateAdded recorded in File Metadata of application package.|Date|
 |Browser|Not available.|null|
 |Electron|Not available.|null|
 
@@ -249,6 +264,7 @@ Get the windows extra information.
 |Android|undefined|undefined|
 |iOS|undefined|undefined|
 |Windows|Object|Object|
+|macOS(OS X)|undefined|undefined|
 |Browser|undefined|undefined|
 |Electron|undefined|undefined|
 

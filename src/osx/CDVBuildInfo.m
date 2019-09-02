@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2016 Mikihiro Hayashi
+Copyright (c) 2019 Mikihiro Hayashi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -84,25 +84,33 @@ const NSString* _BuildInfo_GetDictionaryValue(const NSDictionary *dict, const NS
 	NSDateFormatter *dfRFC3339 = [[NSDateFormatter alloc] init];
 	[dfRFC3339 setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
 	
-	// Info.plist modification date
-	NSString *path = [bundle pathForResource:@"Info.plist" ofType:nil];
-	if (path) {
+	// config.xml modification date
+    NSString *path = [bundle pathForResource:@"config.xml" ofType:nil];
+    if (path) {
 		NSDictionary<NSFileAttributeKey, id>* attr = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
 		NSDate* modificationDate = [attr objectForKey:NSFileModificationDate];
 		
 		if (modificationDate) {
 			buildDate = [dfRFC3339 stringFromDate:modificationDate];
 		}
-	}
+    }
 	
-	// Document folder creation date
-	NSURL *urlDocument = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-	if (urlDocument) {
-		NSDate *creationDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:urlDocument.path error:nil] objectForKey:NSFileCreationDate];
-		if (creationDate) {
-			installDate = [dfRFC3339 stringFromDate:creationDate];
-		}
-	}
+    // app date added
+    NSString *pathBundle = [bundle bundlePath];
+    if (pathBundle) {
+        NSURL *urlBundle = [NSURL fileURLWithPath:pathBundle];
+        
+        MDItemRef itemRef = MDItemCreateWithURL(kCFAllocatorDefault, (CFURLRef)urlBundle);
+        if (itemRef) {
+            CFTypeRef typeRef = MDItemCopyAttribute(itemRef, kMDItemDateAdded);
+            if (typeRef && CFGetTypeID(typeRef) == CFDateGetTypeID()) {
+                NSDate *dateAdded = (__bridge NSDate*)typeRef;
+                installDate = [dfRFC3339 stringFromDate:dateAdded];
+            }
+            CFRelease(typeRef);
+        }
+        CFRelease(itemRef);
+    }
 	
     const NSString *bundleName = _BuildInfo_GetDictionaryValue(info, @"CFBundleName", @"");
     
@@ -117,7 +125,7 @@ const NSString* _BuildInfo_GetDictionaryValue(const NSDictionary *dict, const NS
 							 @"buildDate"      : buildDate,
 							 @"installDate"    : installDate,
 							 @"buildType"      : @"", // Android Only
-							 @"flavor"         : @""  // Android Only
+							 @"flavor"         : @""  // Android Only*/
 						};
 
 	if ([debug boolValue]) {

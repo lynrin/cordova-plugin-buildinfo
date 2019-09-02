@@ -3,7 +3,7 @@
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-plugin-buildinfo"
-        version="3.0.1">
+        version="4.0.0">
     <name>BuildInfo</name>
     <description>Cordova/Phonegap Build Information Plugin. Get PackageName, Version, Debug and more...</description>
     <license>MIT</license>
@@ -43,6 +43,16 @@
             <merges target=""/>
         </js-module>
         <resource-file src="src/windows/buildinfo.resjson" target="strings/buildinfo.resjson" />
+    </platform>
+
+    <platform name="osx">
+        <config-file target="config.xml" parent="/*">
+            <feature name="BuildInfo">
+                <param name="osx-package" value="CDVBuildInfo"/>
+            </feature>
+        </config-file>
+        <header-file src="src/osx/CDVBuildInfo.h"/>
+        <source-file src="src/osx/CDVBuildInfo.m"/>
     </platform>
 
     <platform name="browser">

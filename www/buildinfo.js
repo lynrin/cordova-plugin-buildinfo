@@ -41,7 +41,7 @@ module.exports = {
 };
 
 function _buldinfoCheckCordovaPlatform() {
-	var allowPlatforms = ['android', 'ios', 'windows', 'browser', 'electron'];
+	var allowPlatforms = ['android', 'ios', 'windows', 'osx', 'browser', 'electron'];
 	var platformId = (cordova && cordova.platformId) ? cordova.platformId : null;
 	return (-1 !== allowPlatforms.indexOf(platformId));
 }
@@ -69,7 +69,7 @@ if (_buldinfoCheckCordovaPlatform()) {
 
 	channel.onCordovaReady.subscribe(function () {
 		// Platform Check
-		var allowPlatforms = ['android', 'ios', 'windows', 'browser', 'electron'];
+		var allowPlatforms = ['android', 'ios', 'windows', 'osx', 'browser', 'electron'];
 		var platformId = (cordova && cordova.platformId) ? cordova.platformId : null;
 		if (-1 == allowPlatforms.indexOf(platformId)) {
 			console.debug('BuildInfo init skip.');

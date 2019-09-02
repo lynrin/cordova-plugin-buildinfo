@@ -1,12 +1,13 @@
 {
   "name": "cordova-plugin-buildinfo",
-  "version": "3.0.1",
-  "description": "Cordova/Phonegap Build Information Plugin. Get PackageName, Version, Debug and more...",
+  "version": "4.0.0",
+  "description": "Cordova/PhoneGap Build Information Plugin. Get PackageName, Version, Debug and more...",
   "cordova": {
     "id": "cordova-plugin-buildinfo",
     "platforms": [
       "android",
       "ios",
+      "osx",
       "windows",
       "browser",
       "electron"
@@ -26,6 +27,7 @@
     "cordova-android",
     "cordova-ios",
     "cordova-windows",
+    "cordova-osx",
     "cordova-browser",
     "cordova-electron"
   ],
@@ -53,6 +55,15 @@
         "cordova-electron": ">=1.1.0"
       },
       "4.0.0": {
+        "cordova": ">=5.4.0",
+        "cordova-ios": ">=4.0.0",
+        "cordova-android": ">=5.0.0",
+        "cordova-windows": ">=4.0.0",
+        "cordova-osx": ">=4.0.0",
+        "cordova-browser": ">=6.0.0",
+        "cordova-electron": ">=1.1.0"
+      },
+      "5.0.0": {
         "cordova": ">100"
       }
     }
